@@ -1,4 +1,5 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Counter from '../../components/counter';
 import { decrease, increase } from '../../modules/counter';
@@ -15,9 +16,12 @@ export default connect(
     number: state.counter.number,
   }),
   // dispatch param : store 의 내장 함수 dispatch 를 받아 옴
-  (dispatch) => ({
-    // 임시 함수
-    increase: () => dispatch(increase()),
-    decrease: () => dispatch(decrease()),
-  }),
+  (dispatch) =>
+    bindActionCreators(
+      {
+        increase,
+        decrease,
+      },
+      dispatch,
+    ),
 )(CounterContainer);
