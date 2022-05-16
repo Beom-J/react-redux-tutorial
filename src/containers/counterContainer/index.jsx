@@ -9,19 +9,15 @@ const CounterContainer = ({ number, increase, decrease }) => {
   );
 };
 
-// state param : 현재 스토어가 가지고 있는 state
-const mapStateToProps = (state) => ({
-  number: state.counter.number,
-});
-// dispatch param : store 의 내장 함수 dispatch 를 받아 옴
-const mapDispatchToProps = (dispatch) => ({
-  // 임시 함수
-  increase: () => {
-    dispatch(increase());
-  },
-  decrease: () => {
-    dispatch(decrease());
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CounterContainer);
+export default connect(
+  // state param : 현재 스토어가 가지고 있는 state
+  (state) => ({
+    number: state.counter.number,
+  }),
+  // dispatch param : store 의 내장 함수 dispatch 를 받아 옴
+  (dispatch) => ({
+    // 임시 함수
+    increase: () => dispatch(increase()),
+    decrease: () => dispatch(decrease()),
+  }),
+)(CounterContainer);
