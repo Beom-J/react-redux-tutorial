@@ -11,8 +11,8 @@ const CounterContainer = ({ number, increase, decrease }) => {
 
 export default connect(
   // state param : 현재 스토어가 가지고 있는 state
-  (state) => ({
-    number: state.counter.number,
+  ({ counter }) => ({
+    number: counter.number,
   }),
   {
     increase,
