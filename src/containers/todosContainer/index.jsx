@@ -1,38 +1,29 @@
-import { connect } from 'react-redux';
+import React, { useCallback } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import Todos from '../../components/todos';
+import useActions from '../../lib/useActions';
 import { changeInput, insert, toggle, remove } from '../../modules/todos';
 
-const TodosContainer = ({
-  input, // input text
-  todos, // Object of todo list
-  changeInput,
-  insert,
-  toggle,
-  remove,
-}) => {
+const TodosContainer = () => {
+  const { input, todos } = useSelector(({ todos }) => ({
+    input: todos.input,
+    todos: todos.todos,
+  }));
+  const [onChangeInput, onInsert, onToggle, onRemove] = useActions(
+    [changeInput, insert, toggle, remove],
+    [],
+  );
+
   return (
     <Todos
       input={input}
       todos={todos}
-      onChangeInput={changeInput}
-      onInsert={insert}
-      onToggle={toggle}
-      onRemove={remove}
+      onChangeInput={onChangeInput}
+      onInsert={onInsert}
+      onToggle={onToggle}
+      onRemove={onRemove}
     />
   );
 };
 
-export default connect(
-  // state param : 현재 스토어가 가지고 있는 state
-  // 비구조화 할당 -> todos 분리 -> state.todos.input 대신 todos.input 사용
-  ({ todos }) => ({
-    input: todos.input,
-    todos: todos.todos,
-  }),
-  {
-    changeInput,
-    insert,
-    toggle,
-    remove,
-  },
-)(TodosContainer);
+export default React.memo(TodosContainer);

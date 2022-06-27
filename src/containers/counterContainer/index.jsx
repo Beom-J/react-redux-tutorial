@@ -1,21 +1,18 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Counter from '../../components/counter';
-import { decrease, increase } from '../../modules/counter';
+import { increase, decrease } from '../../modules/counter';
 
-const CounterContainer = ({ number, increase, decrease }) => {
+const CounterContainer = () => {
+  const number = useSelector((state) => state.counter.number);
+  const dispatch = useDispatch();
+  const onIncrease = useCallback(() => dispatch(increase()), [dispatch]);
+  const onDecrease = useCallback(() => dispatch(decrease()), [dispatch]);
+
   return (
-    <Counter number={number} onIncrease={increase} onDecrease={decrease} />
+    <Counter number={number} onIncrease={onIncrease} onDecrease={onDecrease} />
   );
 };
 
-export default connect(
-  // state param : 현재 스토어가 가지고 있는 state
-  ({ counter }) => ({
-    number: counter.number,
-  }),
-  {
-    increase,
-    decrease,
-  },
-)(CounterContainer);
+export default CounterContainer;
